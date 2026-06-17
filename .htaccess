@@ -1,0 +1,7 @@
+Options -Indexes
+RewriteEngine On
+RewriteRule ^(config|helpers|includes|vendor)/ - [F,L]
+
+<FilesMatch "\.(sql|ini|log|env)$">
+    Require all denied
+</FilesMatch>

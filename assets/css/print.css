@@ -1,0 +1,23 @@
+@media print {
+    body {
+        background: #ffffff;
+        color: #000000;
+    }
+
+    .sidebar,
+    .topbar,
+    .footer,
+    .actions,
+    .menu-toggle {
+        display: none !important;
+    }
+
+    .page {
+        padding: 0;
+    }
+
+    .card {
+        border: none;
+        padding: 0;
+    }
+}
