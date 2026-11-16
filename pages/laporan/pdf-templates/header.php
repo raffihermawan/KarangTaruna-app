@@ -4,12 +4,16 @@
 /** @var string $organizationAddress */
 /** @var string $organizationEmail */
 /** @var string $periodText */
+/** @var string $organizationBank */
+/** @var string $organizationAccount */
 
 $logoPath = (string) ($logoPath ?? '');
 $organizationName = (string) ($organizationName ?? 'Karang Taruna 001');
 $organizationAddress = trim((string) ($organizationAddress ?? ''));
 $organizationEmail = trim((string) ($organizationEmail ?? ''));
 $periodText = (string) ($periodText ?? '');
+$organizationBank = trim((string) ($organizationBank ?? ''));
+$organizationAccount = trim((string) ($organizationAccount ?? ''));
 ?>
 <table style="width: 100%; border-collapse: collapse; border-bottom: 3px double #000000; padding-bottom: 10px; margin-bottom: 20px;">
     <tr>
@@ -36,6 +40,7 @@ $periodText = (string) ($periodText ?? '');
             <span style="font-size: 9px; font-style: italic;">
                 Sekretariat: <?php echo htmlspecialchars($organizationAddress ?: '-', ENT_QUOTES, 'UTF-8'); ?>
                 <?php if ($organizationEmail): ?> | Email: <?php echo htmlspecialchars($organizationEmail, ENT_QUOTES, 'UTF-8'); ?><?php endif; ?>
+                <?php if ($organizationBank || $organizationAccount): ?> | Bank: <?php echo htmlspecialchars($organizationBank ?: '-', ENT_QUOTES, 'UTF-8'); ?> | Rek: <?php echo htmlspecialchars($organizationAccount ?: '-', ENT_QUOTES, 'UTF-8'); ?><?php endif; ?>
             </span>
         </td>
     </tr>

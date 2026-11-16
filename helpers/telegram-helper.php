@@ -16,7 +16,7 @@ function telegram_bot_token(): string
     return '';
 }
 
-function telegram_send_message($chatId, string $message, ?string $parseMode = null): bool
+function telegram_send_message(int|string $chatId, string $message, ?string $parseMode = null): bool
 {
     $botToken = telegram_bot_token();
     if (trim((string) $chatId) === '' || $botToken === '') {
@@ -39,16 +39,22 @@ function telegram_send_message($chatId, string $message, ?string $parseMode = nu
             'method' => 'POST',
             'content' => http_build_query($data),
             'timeout' => 10,
+            'ignore_errors' => true,
         ]
     ];
 
     $context = stream_context_create($options);
     $result = @file_get_contents($url, false, $context);
+    if ($result === false) {
+        return false;
+    }
 
-    return $result !== false;
+    $response = json_decode($result, true);
+
+    return is_array($response) && ($response['ok'] ?? false) === true;
 }
 
-function kirim_telegram_login($chatId, $nama, $role)
+function kirim_telegram_login(int|string $chatId, string $nama, string $role): bool
 {
     date_default_timezone_set('Asia/Jakarta');
 
@@ -126,10 +132,10 @@ function kirim_telegram_login($chatId, $nama, $role)
     $message .= "🕒 Jam: {$jam}\n\n";
     $message .= "Jika ini bukan Anda, segera ubah password akun.";
 
-    telegram_send_message($chatId, $message);
+    return telegram_send_message($chatId, $message);
 }
 
-function kirim_telegram_otp_login($chatId, string $nama, string $otp): bool
+function kirim_telegram_otp_login(int|string $chatId, string $nama, string $otp): bool
 {
     date_default_timezone_set('Asia/Jakarta');
 
@@ -142,13 +148,13 @@ function kirim_telegram_otp_login($chatId, string $nama, string $otp): bool
 }
 
 function kirim_telegram_transaksi(
-    $chatId,
-    $jenis,
-    $jumlah,
-    $kategori,
-    $kegiatan,
-    $inputBy
-) {
+    int|string $chatId,
+    string $jenis,
+    int|float|string $jumlah,
+    string $kategori,
+    string $kegiatan,
+    string $inputBy
+): bool {
     date_default_timezone_set('Asia/Jakarta');
 
     $tanggal = date('d F Y');
@@ -156,16 +162,16 @@ function kirim_telegram_transaksi(
 
     $icon = $jenis === 'pemasukan' ? '🟢' : '🔴';
 
-    $message = "💰 TRANSAKSI KEUANGAN\n\n";
+    $message = "TRANSAKSI KEUANGAN\n\n";
     $message .= "Terdapat transaksi baru pada sistem.\n\n";
     $message .= "{$icon} Jenis: " . ucfirst($jenis) . "\n";
-    $message .= "💵 Nominal: Rp" . number_format($jumlah, 0, ',', '.') . "\n";
-    $message .= "📂 Kategori: {$kategori}\n";
-    $message .= "📝 Kegiatan: " . ($kegiatan ?: '-') . "\n";
-    $message .= "👤 Diinput oleh: {$inputBy}\n";
-    $message .= "📅 Tanggal: {$tanggal}\n";
-    $message .= "🕒 Jam: {$jam}\n\n";
+    $message .= "Nominal: Rp" . number_format($jumlah, 0, ',', '.') . "\n";
+    $message .= "Kategori: {$kategori}\n";
+    $message .= "Kegiatan: " . ($kegiatan ?: '-') . "\n";
+    $message .= "Diinput oleh: {$inputBy}\n";
+    $message .= "Tanggal: {$tanggal}\n";
+    $message .= "Jam: {$jam}\n\n";
     $message .= "Silakan cek dashboard untuk detail lebih lanjut.";
 
-    telegram_send_message($chatId, $message);
+    return telegram_send_message($chatId, $message);
 }

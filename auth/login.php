@@ -9,6 +9,7 @@ $timeout = isset($_GET['timeout']);
 $pdo = db();
 $hasUser = (int) $pdo->query('SELECT COUNT(*) FROM users')->fetchColumn();
 $settings = get_pengaturan($pdo);
+$organizationName = trim((string) ($settings['nama_organisasi'] ?? APP_NAME));
 $logoPath = $settings['logo'] ?? null;
 $logoSrc = $logoPath ? base_url($logoPath) : base_url('assets/img/karang-taruna-logo.png');
 
@@ -80,8 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - <?php echo htmlspecialchars(APP_NAME, ENT_QUOTES, 'UTF-8'); ?></title>
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css'); ?>">
+    <title>Login - <?php echo htmlspecialchars($organizationName, ENT_QUOTES, 'UTF-8'); ?></title>
+    <?php $styleVersion = file_exists(__DIR__ . '/../assets/css/style.css') ? filemtime(__DIR__ . '/../assets/css/style.css') : time(); ?>
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css') . '?v=' . $styleVersion; ?>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-EqQQl9l/4i2+8QvF4aFQxgR8nJ8Z8P7V4z3m2i1cZ4qgQd3pQG5eY0g8JpQm1Y2QW1qgY4x5b2z7R2c2b1Q7r9g==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -92,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="auth-logo">
             <img src="<?php echo htmlspecialchars($logoSrc, ENT_QUOTES, 'UTF-8'); ?>" alt="Logo Karang Taruna">
         </div>
-        <h1 class="auth-title">KARANG TARUNA 001 LEBAK BULUS</h1>
+        <h1 class="auth-title"><?php echo htmlspecialchars($organizationName, ENT_QUOTES, 'UTF-8'); ?></h1>
         <p class="auth-subtitle">Silakan login untuk melanjutkan.</p>
     </div>
     <?php if ($hasUser === 0) : ?>
@@ -114,10 +117,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </label>
         <label>
             Password
-            <input type="password" name="password" required>
+            <div style="position: relative; width: 100%;">
+                <input type="password" name="password" style="width: 100%; padding-right: 40px;" required>
+                <i class="fas fa-eye" id="togglePassword" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #6c757d; z-index: 10;"></i>
+            </div>
         </label>
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordInput = document.querySelector('input[name="password"]');
+
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    }
+});
+</script>
 </body>
 </html>

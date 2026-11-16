@@ -67,7 +67,7 @@ include __DIR__ . '/../../includes/sidebar.php';
 <div class="page">
     <div class="card">
         <div class="card-title">Filter Laporan</div>
-        <form method="get" class="filters">
+        <form method="get" class="filters laporan-filters">
             <label>
                 Tanggal Mulai
                 <input type="date" name="tanggal_mulai" value="<?php echo htmlspecialchars($tanggalMulai, ENT_QUOTES, 'UTF-8'); ?>">
@@ -84,8 +84,8 @@ include __DIR__ . '/../../includes/sidebar.php';
                     <option value="pengeluaran" <?php echo $jenis === 'pengeluaran' ? 'selected' : ''; ?>>Pengeluaran</option>
                 </select>
             </label>
-            <button type="submit" class="btn btn-primary">Terapkan</button>
-            <a href="<?php echo base_url('pages/laporan/index.php'); ?>" class="btn">Reset</a>
+            <button type="submit" class="btn btn-primary laporan-btn">Terapkan</button>
+            <a href="<?php echo base_url('pages/laporan/index.php'); ?>" class="btn laporan-btn">Reset</a>
         </form>
     </div>
 
@@ -103,12 +103,13 @@ include __DIR__ . '/../../includes/sidebar.php';
     <div class="card">
         <div class="card-title">Daftar Transaksi</div>
         <?php if ($role !== 'anggota') : ?>
-            <div class="actions">
+            <div class="actions laporan-actions">
                 <a href="<?php echo base_url('pages/laporan/export-pdf.php?' . $queryString); ?>" class="btn btn-primary">Export PDF</a>
                 <a href="<?php echo base_url('pages/laporan/export-excel.php?' . $queryString); ?>" class="btn btn-success">Export Excel</a>
             </div>
         <?php endif; ?>
-        <table class="table">
+        <div class="table-wrap laporan-table-wrap">
+        <table class="table laporan-table">
             <thead>
                 <tr>
                     <th>Tanggal</th>
@@ -134,6 +135,7 @@ include __DIR__ . '/../../includes/sidebar.php';
                 <?php endif; ?>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 <?php include __DIR__ . '/../../includes/footer.php'; ?>

@@ -46,7 +46,8 @@ include __DIR__ . '/../../includes/sidebar.php';
     <?php include __DIR__ . '/../../includes/alert.php'; ?>
     <div class="card">
         <div class="card-title">Detail Kegiatan</div>
-        <table class="table">
+        <div class="table-wrap kegiatan-table-wrap">
+        <table class="table kegiatan-table">
             <tr><th>Nama</th><td><?php echo htmlspecialchars($kegiatan['nama'], ENT_QUOTES, 'UTF-8'); ?></td></tr>
             <tr><th>Divisi</th><td><?php echo htmlspecialchars(str_replace('_', ' ', $kegiatan['divisi']), ENT_QUOTES, 'UTF-8'); ?></td></tr>
             <tr><th>Periode</th><td><?php echo format_tanggal($kegiatan['tanggal_mulai']); ?> - <?php echo format_tanggal($kegiatan['tanggal_selesai']); ?></td></tr>
@@ -54,6 +55,7 @@ include __DIR__ . '/../../includes/sidebar.php';
             <tr><th>Anggaran</th><td><?php echo format_rupiah($kegiatan['anggaran']); ?></td></tr>
             <tr><th>Deskripsi</th><td><?php echo nl2br(htmlspecialchars($kegiatan['deskripsi'], ENT_QUOTES, 'UTF-8')); ?></td></tr>
         </table>
+        </div>
     </div>
 
     <div class="card">
@@ -72,7 +74,8 @@ include __DIR__ . '/../../includes/sidebar.php';
 
     <div class="card">
         <div class="card-title">Transaksi Terkait</div>
-        <table class="table">
+        <div class="table-wrap kegiatan-table-wrap">
+        <table class="table kegiatan-table">
             <thead>
                 <tr>
                     <th>Tanggal</th>
@@ -96,7 +99,8 @@ include __DIR__ . '/../../includes/sidebar.php';
                 <?php endif; ?>
             </tbody>
         </table>
-        <div class="actions">
+        </div>
+        <div class="actions kegiatan-actions">
             <a href="<?php echo base_url('pages/kegiatan/index.php'); ?>" class="btn">Kembali</a>
             <?php if ($role === 'bendahara') : ?>
                 <a href="<?php echo base_url('pages/kegiatan/edit.php?id=' . $id); ?>" class="btn btn-primary">Edit</a>

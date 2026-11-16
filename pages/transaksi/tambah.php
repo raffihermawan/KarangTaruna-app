@@ -149,7 +149,7 @@ include __DIR__ . '/../../includes/sidebar.php';
         <?php if ($error) : ?>
             <div class="alert alert-danger"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
         <?php endif; ?>
-        <form method="post" enctype="multipart/form-data" data-validate>
+        <form method="post" enctype="multipart/form-data" data-validate class="transaksi-form">
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8'); ?>">
             <div class="form-grid">
                 <label>
@@ -199,11 +199,27 @@ include __DIR__ . '/../../includes/sidebar.php';
                 Keterangan
                 <textarea name="keterangan" required></textarea>
             </label>
-            <label>
-                Upload Bukti (JPG/PNG/PDF, max 5MB)
-                <input type="file" name="bukti" accept=".jpg,.jpeg,.png,.pdf">
-            </label>
-            <div class="actions">
+            <div class="upload-widget upload-widget--create" data-upload-widget data-upload-initial-name="" data-upload-initial-type="" data-upload-initial-url="">
+                <div class="upload-widget__header">
+                    <div>
+                        <div class="upload-widget__title">Upload Bukti</div>
+                        <div class="upload-widget__hint">Pilih file atau ambil foto dari kamera. JPG, PNG, atau PDF maksimal 5MB.</div>
+                    </div>
+                    <div class="upload-widget__actions">
+                        <button type="button" class="btn btn-primary" data-upload-camera>Buka Kamera</button>
+                        <button type="button" class="btn" data-upload-file-trigger>Pilih File</button>
+                    </div>
+                </div>
+                <input type="file" name="bukti" accept="image/*,application/pdf" capture="environment" data-upload-input class="upload-widget__input" hidden aria-hidden="true" tabindex="-1" style="display:none !important;">
+                <div class="upload-preview upload-preview--create" data-upload-preview>
+                    <div class="upload-preview__empty">
+                        <strong>Belum ada bukti dipilih.</strong>
+                        <span>Pilih file dari perangkat atau buka kamera untuk mengambil foto bukti transaksi.</span>
+                    </div>
+                </div>
+                <div class="upload-file-name" data-upload-file-name></div>
+            </div>
+            <div class="actions transaksi-actions">
                 <button type="submit" class="btn btn-success">Simpan</button>
                 <a href="<?php echo base_url('pages/transaksi/index.php'); ?>" class="btn">Batal</a>
             </div>

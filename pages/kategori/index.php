@@ -15,10 +15,11 @@ include __DIR__ . '/../../includes/sidebar.php';
     <?php include __DIR__ . '/../../includes/alert.php'; ?>
     <div class="card">
         <div class="card-title">Kategori Transaksi</div>
-        <div class="actions">
+        <div class="actions kategori-actions">
             <a href="<?php echo base_url('pages/kategori/tambah.php'); ?>" class="btn btn-success">Tambah Kategori</a>
         </div>
-        <table class="table">
+        <div class="table-wrap kategori-table-wrap">
+        <table class="table kategori-table">
             <thead>
                 <tr>
                     <th>Nama</th>
@@ -55,6 +56,7 @@ include __DIR__ . '/../../includes/sidebar.php';
                 <?php endif; ?>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 <?php include __DIR__ . '/../../includes/footer.php'; ?>

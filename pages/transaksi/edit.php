@@ -150,7 +150,7 @@ include __DIR__ . '/../../includes/sidebar.php';
         <?php if ($error) : ?>
             <div class="alert alert-danger"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
         <?php endif; ?>
-        <form method="post" enctype="multipart/form-data" data-validate>
+        <form method="post" enctype="multipart/form-data" data-validate class="transaksi-form">
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8'); ?>">
             <div class="form-grid">
                 <label>
@@ -198,11 +198,22 @@ include __DIR__ . '/../../includes/sidebar.php';
                 Keterangan
                 <textarea name="keterangan" required><?php echo htmlspecialchars($transaksi['keterangan'], ENT_QUOTES, 'UTF-8'); ?></textarea>
             </label>
-            <label>
-                Upload Bukti Baru (Opsional)
-                <input type="file" name="bukti" accept=".jpg,.jpeg,.png,.pdf">
-            </label>
-            <div class="actions">
+            <div class="upload-widget" data-upload-widget data-upload-initial-name="<?php echo $bukti ? htmlspecialchars($bukti['nama_file'], ENT_QUOTES, 'UTF-8') : ''; ?>" data-upload-initial-type="<?php echo $bukti ? htmlspecialchars($bukti['tipe_file'], ENT_QUOTES, 'UTF-8') : ''; ?>" data-upload-initial-url="<?php echo $bukti ? htmlspecialchars(base_url($bukti['path_file']), ENT_QUOTES, 'UTF-8') : ''; ?>">
+                <div class="upload-widget__header">
+                    <div>
+                        <div class="upload-widget__title">Upload Bukti Baru</div>
+                        <div class="upload-widget__hint">Opsional. Pilih file baru atau ambil foto dari kamera untuk mengganti bukti lama.</div>
+                    </div>
+                    <div class="upload-widget__actions">
+                        <button type="button" class="btn btn-primary" data-upload-camera>Buka Kamera</button>
+                        <button type="button" class="btn" data-upload-file-trigger>Pilih File</button>
+                    </div>
+                </div>
+                <input type="file" name="bukti" accept="image/*,application/pdf" capture="environment" data-upload-input class="upload-widget__input">
+                <div class="upload-preview" data-upload-preview></div>
+                <div class="upload-file-name" data-upload-file-name></div>
+            </div>
+            <div class="actions transaksi-actions">
                 <button type="submit" class="btn btn-success">Simpan</button>
                 <a href="<?php echo base_url('pages/transaksi/detail.php?id=' . $id); ?>" class="btn">Batal</a>
             </div>

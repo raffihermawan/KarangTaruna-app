@@ -111,7 +111,7 @@ include __DIR__ . '/../../includes/sidebar.php';
         <?php if ($error) : ?>
             <div class="alert alert-danger"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
         <?php endif; ?>
-        <form method="get" class="filters" style="margin-bottom: 16px;">
+        <form method="get" class="filters transaksi-filters" style="margin-bottom: 16px;">
             <label>
                 Status
                 <select name="status">
@@ -121,10 +121,11 @@ include __DIR__ . '/../../includes/sidebar.php';
                     <option value="all" <?php echo $statusFilter === 'all' ? 'selected' : ''; ?>>Semua</option>
                 </select>
             </label>
-            <button type="submit" class="btn btn-primary">Terapkan</button>
-            <a href="<?php echo base_url('pages/transaksi/persetujuan.php'); ?>" class="btn">Reset</a>
+            <button type="submit" class="btn btn-primary transaksi-btn">Terapkan</button>
+            <a href="<?php echo base_url('pages/transaksi/persetujuan.php'); ?>" class="btn transaksi-btn">Reset</a>
         </form>
-        <table class="table">
+        <div class="table-wrap transaksi-table-wrap">
+        <table class="table transaksi-table">
             <thead>
                 <tr>
                     <th>Tanggal</th>
@@ -164,6 +165,7 @@ include __DIR__ . '/../../includes/sidebar.php';
                                 <?php endif; ?>
                             </td>
                             <td class="actions">
+                                <a href="<?php echo base_url('pages/transaksi/detail.php?id=' . $trx['id']); ?>" class="btn">Detail</a>
                                 <?php if ($status === 'pending') : ?>
                                     <form method="post" style="display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap;">
                                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8'); ?>">
@@ -198,6 +200,7 @@ include __DIR__ . '/../../includes/sidebar.php';
                 <?php endif; ?>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 <script>

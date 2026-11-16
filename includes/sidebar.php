@@ -8,6 +8,7 @@ $role = $user['role'] ?? '';
 
 $pdo = db();
 $settings = get_pengaturan($pdo);
+$organizationName = trim((string) ($settings['nama_organisasi'] ?? APP_NAME));
 $logoPath = $settings['logo'] ?? null;
 $logoSrc = $logoPath ? base_url($logoPath) : base_url('assets/img/karang-taruna-logo.png');
 ?>
@@ -16,7 +17,7 @@ $logoSrc = $logoPath ? base_url($logoPath) : base_url('assets/img/karang-taruna-
         <div class="brand-logo" id="sidebar-logo-container" aria-label="Logo Karang Taruna">
             <img id="sidebar-logo" src="<?php echo htmlspecialchars($logoSrc, ENT_QUOTES, 'UTF-8'); ?>" alt="Logo Karang Taruna">
         </div>
-        <span class="brand-title">KARANG TARUNA 001 LEBAK BULUS</span>
+        <span class="brand-title"><?php echo htmlspecialchars($organizationName, ENT_QUOTES, 'UTF-8'); ?></span>
         <span class="brand-role"><?php echo strtoupper(htmlspecialchars($role ?: 'guest', ENT_QUOTES, 'UTF-8')); ?></span>
     </div>
     <nav class="sidebar-nav">
@@ -46,12 +47,26 @@ $logoSrc = $logoPath ? base_url($logoPath) : base_url('assets/img/karang-taruna-
             </span>
             <span class="nav-text">Kegiatan</span>
         </a>
+        <a href="<?php echo base_url('pages/dokumen/index.php'); ?>">
+            <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="nav-text">Dokumen/Berkas</span>
+        </a>
         <a href="<?php echo base_url('pages/laporan/index.php'); ?>">
             <span class="nav-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none"><path d="M7 4h7l4 4v12H7V4z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 4v4h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
             <span class="nav-text">Laporan</span>
         </a>
+        <?php if (in_array($role, ['anggota', 'ketua'], true)) : ?>
+        <a href="<?php echo base_url('pages/saran/index.php'); ?>">
+            <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="nav-text">Masukan & Saran</span>
+        </a>
+        <?php endif; ?>
         <?php if (in_array($role, ['bendahara', 'ketua'], true)) : ?>
             <a href="<?php echo base_url('pages/anggota/index.php'); ?>">
                 <span class="nav-icon" aria-hidden="true">
@@ -99,7 +114,9 @@ $logoSrc = $logoPath ? base_url($logoPath) : base_url('assets/img/karang-taruna-
                 <div class="profile-dropdown" id="profile-dropdown" role="menu">
                     <a href="<?php echo base_url('pages/profile/index.php'); ?>" class="profile-item" data-dropdown-close>Lihat Profil</a>
                     <a href="<?php echo base_url('pages/security/change-password.php'); ?>" class="profile-item" data-dropdown-close>Ganti Kata Sandi</a>
-                    <a href="<?php echo base_url('pages/pengaturan/index.php'); ?>" class="profile-item" data-dropdown-close>Pengaturan Akun</a>
+                    <?php if (in_array($role, ['bendahara', 'ketua'], true)) : ?>
+                        <a href="<?php echo base_url('pages/pengaturan/index.php'); ?>" class="profile-item" data-dropdown-close>Pengaturan Akun</a>
+                    <?php endif; ?>
                     <a href="<?php echo base_url('pages/notifikasi/index.php'); ?>" class="profile-item" data-dropdown-close>Notifikasi</a>
                     <button type="button" class="profile-item profile-item--toggle" data-theme-toggle>
                         <span class="profile-item-left">

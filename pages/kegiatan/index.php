@@ -17,12 +17,13 @@ include __DIR__ . '/../../includes/sidebar.php';
     <?php include __DIR__ . '/../../includes/alert.php'; ?>
     <div class="card">
         <div class="card-title">Daftar Kegiatan</div>
-        <?php if ($role === 'bendahara') : ?>
-            <div class="actions">
+        <?php if (in_array($role, ['bendahara', 'ketua'], true)) : ?>
+            <div class="actions kegiatan-actions">
                 <a href="<?php echo base_url('pages/kegiatan/tambah.php'); ?>" class="btn btn-success">Tambah Kegiatan</a>
             </div>
         <?php endif; ?>
-        <table class="table">
+        <div class="table-wrap kegiatan-table-wrap">
+        <table class="table kegiatan-table">
             <thead>
                 <tr>
                     <th>Nama</th>
@@ -55,6 +56,7 @@ include __DIR__ . '/../../includes/sidebar.php';
                 <?php endif; ?>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 <?php include __DIR__ . '/../../includes/footer.php'; ?>

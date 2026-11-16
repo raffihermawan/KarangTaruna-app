@@ -38,9 +38,10 @@ include __DIR__ . '/../../includes/sidebar.php';
     <?php include __DIR__ . '/../../includes/alert.php'; ?>
     <div class="card">
         <div class="card-title">Detail Transaksi</div>
-        <table class="table">
+        <div class="table-wrap transaksi-table-wrap">
+        <table class="table transaksi-table">
             <tr><th>Tanggal</th><td><?php echo format_tanggal($transaksi['tanggal']); ?></td></tr>
-            <tr><th>Jenis</th><td><?php echo htmlspecialchars($transaksi['jenis'], ENT_QUOTES, 'UTF-8'); ?></td></tr>
+            <tr><th>Jenis</th><td><?php echo htmlspecialchars(ucfirst($transaksi['jenis']), ENT_QUOTES, 'UTF-8'); ?></td></tr>
             <tr><th>Kategori</th><td><?php echo htmlspecialchars($transaksi['kategori_nama'], ENT_QUOTES, 'UTF-8'); ?></td></tr>
             <tr><th>Kegiatan</th><td><?php echo htmlspecialchars($transaksi['kegiatan_nama'] ?: '-', ENT_QUOTES, 'UTF-8'); ?></td></tr>
             <tr><th>PIC</th><td><?php echo htmlspecialchars($transaksi['pic'], ENT_QUOTES, 'UTF-8'); ?></td></tr>
@@ -61,6 +62,7 @@ include __DIR__ . '/../../includes/sidebar.php';
             <?php endif; ?>
             <tr><th>Keterangan</th><td><?php echo nl2br(htmlspecialchars($transaksi['keterangan'], ENT_QUOTES, 'UTF-8')); ?></td></tr>
         </table>
+        </div>
         <?php if ($bukti) : ?>
             <div class="card-title">Bukti Transaksi</div>
             <?php
@@ -73,7 +75,7 @@ include __DIR__ . '/../../includes/sidebar.php';
                 <a href="<?php echo $fileUrl; ?>" class="btn btn-primary" target="_blank" rel="noopener">Lihat Dokumen</a>
             <?php endif; ?>
         <?php endif; ?>
-        <div class="actions">
+        <div class="actions transaksi-actions">
             <a href="<?php echo base_url('pages/transaksi/index.php'); ?>" class="btn">Kembali</a>
             <?php if ($role === 'bendahara' && $status === 'pending') : ?>
                 <a href="<?php echo base_url('pages/transaksi/edit.php?id=' . $id); ?>" class="btn btn-primary">Edit</a>

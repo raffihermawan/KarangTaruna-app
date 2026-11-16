@@ -45,20 +45,21 @@ include __DIR__ . '/../../includes/sidebar.php';
         <div class="card-meta" style="margin-bottom: 16px;">
             <strong>Jumlah Anggota Aktif:</strong> <?php echo (int) $jumlahAktif; ?>
         </div>
-        <form method="get" class="actions" style="gap: 10px; flex-wrap: wrap; margin-bottom: 16px;">
+        <form method="get" class="actions anggota-filters" style="gap: 10px; flex-wrap: wrap; margin-bottom: 16px;">
             <input type="text" name="search" value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>" placeholder="Cari nama, NIK, jabatan, HP, email">
             <select name="status">
                 <option value="">Semua Status</option>
                 <option value="aktif" <?php echo $statusFilter === 'aktif' ? 'selected' : ''; ?>>Aktif</option>
                 <option value="nonaktif" <?php echo $statusFilter === 'nonaktif' ? 'selected' : ''; ?>>Nonaktif</option>
             </select>
-            <button type="submit" class="btn btn-primary">Cari</button>
-            <a href="<?php echo base_url('pages/anggota/index.php'); ?>" class="btn">Reset</a>
+            <button type="submit" class="btn btn-primary anggota-btn">Cari</button>
+            <a href="<?php echo base_url('pages/anggota/index.php'); ?>" class="btn anggota-btn">Reset</a>
         </form>
-        <div class="actions">
+        <div class="actions anggota-actions">
             <a href="<?php echo base_url('pages/anggota/tambah.php'); ?>" class="btn btn-success">Tambah Anggota</a>
         </div>
-        <table class="table">
+        <div class="table-wrap anggota-table-wrap">
+        <table class="table anggota-table">
             <thead>
                 <tr>
                     <th style="min-width: 280px;">Nama</th>
@@ -124,6 +125,7 @@ include __DIR__ . '/../../includes/sidebar.php';
                 <?php endif; ?>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 <?php include __DIR__ . '/../../includes/footer.php'; ?>

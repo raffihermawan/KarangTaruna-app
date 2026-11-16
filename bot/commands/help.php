@@ -1,6 +1,6 @@
 <?php
 
-global $botToken, $chatId;
+global $chatId;
 
 $text =
 "📌 DAFTAR COMMAND
@@ -9,4 +9,4 @@ $text =
 /saldo - Cek saldo kas
 /help - Bantuan";
 
-kirimPesan($botToken, $chatId, $text);
+kirimPesan($chatId, $text);

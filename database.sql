@@ -121,3 +121,24 @@ INSERT INTO kategori_transaksi (nama, jenis, divisi) VALUES
 ('Dokumentasi & Percetakan', 'pengeluaran', 'umum'),
 ('Kebersihan & Lingkungan', 'pengeluaran', 'umum'),
 ('Lain-lain Pengeluaran', 'pengeluaran', 'umum');
+
+CREATE TABLE saran (
+    id_saran           INT PRIMARY KEY AUTO_INCREMENT,
+    id_anggota         INT NOT NULL,
+    perihal            VARCHAR(255) NOT NULL,
+    isi_saran          TEXT NOT NULL,
+    tgl_kirim          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status_baca        TINYINT DEFAULT 0,
+    draf_balasan_ketua TEXT DEFAULT NULL,
+    FOREIGN KEY (id_anggota) REFERENCES anggota(id) ON DELETE CASCADE
+);
+
+CREATE TABLE dokumen (
+    id              INT PRIMARY KEY AUTO_INCREMENT,
+    nama_dokumen    VARCHAR(255) NOT NULL,
+    jenis_dokumen   VARCHAR(100) NOT NULL,
+    nama_file       VARCHAR(255) NOT NULL,
+    uploaded_by     INT NOT NULL,
+    tgl_upload      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE CASCADE
+);

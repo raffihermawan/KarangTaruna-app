@@ -22,7 +22,7 @@ if (!$data || !isset($data['message'])) {
     exit;
 }
 
-$chatId = $data['message']['chat']['id'];
+$chatId = (int) $data['message']['chat']['id'];
 $message = trim($data['message']['text'] ?? '');
 $firstName = trim((string) ($data['message']['from']['first_name'] ?? 'Pengguna'));
 
@@ -64,10 +64,6 @@ if (strpos($message, '/start') === 0) {
 */
 switch ($message) {
 
-    case '/start':
-        require __DIR__ . '/commands/start.php';
-        break;
-
     case '/help':
         require __DIR__ . '/commands/help.php';
         break;
@@ -78,7 +74,6 @@ switch ($message) {
 
     default:
         kirimPesan(
-            $botToken,
             $chatId,
             "❌ Command tidak dikenal.\n\nKetik /help untuk melihat daftar command."
         );
@@ -91,24 +86,7 @@ switch ($message) {
 | FUNCTION SEND MESSAGE
 |--------------------------------------------------------------------------
 */
-function kirimPesan($token, $chatId, $text)
+function kirimPesan(int|string $chatId, string $text): bool
 {
-    $url = "https://api.telegram.org/bot{$token}/sendMessage";
-
-    $data = [
-        'chat_id' => $chatId,
-        'text' => $text,
-    ];
-
-    $options = [
-        'http' => [
-            'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
-            'method' => 'POST',
-            'content' => http_build_query($data),
-        ]
-    ];
-
-    $context = stream_context_create($options);
-
-    @file_get_contents($url, false, $context);
+    return telegram_send_message($chatId, $text);
 }

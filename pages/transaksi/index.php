@@ -63,7 +63,7 @@ include __DIR__ . '/../../includes/sidebar.php';
     <?php include __DIR__ . '/../../includes/alert.php'; ?>
     <div class="card">
         <div class="card-title">Filter Transaksi</div>
-        <form method="get" class="filters">
+        <form method="get" class="filters transaksi-filters">
             <label>
                 Jenis
                 <select name="jenis">
@@ -106,19 +106,20 @@ include __DIR__ . '/../../includes/sidebar.php';
                 Search
                 <input type="text" name="search" value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>" placeholder="Keterangan">
             </label>
-            <button type="submit" class="btn btn-primary">Terapkan</button>
-            <a href="<?php echo base_url('pages/transaksi/index.php'); ?>" class="btn">Reset</a>
+            <button type="submit" class="btn btn-primary transaksi-btn">Terapkan</button>
+            <a href="<?php echo base_url('pages/transaksi/index.php'); ?>" class="btn transaksi-btn">Reset</a>
         </form>
     </div>
 
     <div class="card">
         <div class="card-title">Daftar Transaksi</div>
         <?php if ($role === 'bendahara') : ?>
-            <div class="actions">
+            <div class="actions transaksi-actions">
                 <a href="<?php echo base_url('pages/transaksi/tambah.php'); ?>" class="btn btn-success">Tambah Transaksi</a>
             </div>
         <?php endif; ?>
-        <table class="table">
+        <div class="table-wrap transaksi-table-wrap">
+        <table class="table transaksi-table">
             <thead>
                 <tr>
                     <th>Tanggal</th>
@@ -169,6 +170,7 @@ include __DIR__ . '/../../includes/sidebar.php';
                 <?php endif; ?>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 <?php include __DIR__ . '/../../includes/footer.php'; ?>

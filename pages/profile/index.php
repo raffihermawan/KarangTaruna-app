@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../helpers/auth-helper.php';
+require_once __DIR__ . '/../../helpers/query-helper.php';
 
 require_login();
 
@@ -16,6 +17,9 @@ $username = $user['username'] ?? '-';
 $email = strpos($username, '@') !== false ? $username : '-';
 $telegramChatId = trim((string) ($user['telegram_chat_id'] ?? ''));
 $telegramLink = 'https://t.me/BotKarangTaruna_bot?start=hubungkan_' . (int) ($user['id'] ?? 0);
+$organization = get_pengaturan($pdo);
+$organizationLogo = trim((string) ($organization['logo'] ?? ''));
+$organizationLogo = $organizationLogo !== '' ? base_url($organizationLogo) : '';
 
 $page_title = 'Profil';
 include __DIR__ . '/../../includes/header.php';
@@ -49,5 +53,24 @@ include __DIR__ . '/../../includes/sidebar.php';
             </div>
         <?php endif; ?>
     </div>
+</div>
+
+<div class="card" style="margin-top: 18px;">
+    <div class="card-title">Profil Organisasi</div>
+    <?php if ($organizationLogo !== '') : ?>
+        <div style="margin-bottom: 16px; text-align: center;">
+            <img src="<?php echo htmlspecialchars($organizationLogo, ENT_QUOTES, 'UTF-8'); ?>" alt="Logo organisasi" style="max-width: 120px; max-height: 120px; object-fit: contain;">
+        </div>
+    <?php endif; ?>
+    <table class="table">
+        <tr><th>Nama Organisasi</th><td><?php echo htmlspecialchars($organization['nama_organisasi'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></td></tr>
+        <tr><th>Alamat</th><td><?php echo htmlspecialchars($organization['alamat'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></td></tr>
+        <tr><th>Email</th><td><?php echo htmlspecialchars($organization['email'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></td></tr>
+        <tr><th>Bank</th><td><?php echo htmlspecialchars($organization['nama_bank'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></td></tr>
+        <tr><th>Nomor Rekening</th><td><?php echo htmlspecialchars($organization['no_rekening'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></td></tr>
+        <tr><th>Tahun Aktif</th><td><?php echo htmlspecialchars($organization['tahun_aktif'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></td></tr>
+        <tr><th>Ketua</th><td><?php echo htmlspecialchars($organization['nama_ketua'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></td></tr>
+        <tr><th>Bendahara</th><td><?php echo htmlspecialchars($organization['nama_bendahara'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></td></tr>
+    </table>
 </div>
 <?php include __DIR__ . '/../../includes/footer.php'; ?>

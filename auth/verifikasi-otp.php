@@ -93,6 +93,7 @@ if (isset($_GET['resend']) && $canResend && !empty($user['telegram_chat_id'])) {
 
 $page_title = 'Verifikasi OTP';
 $settings = get_pengaturan($pdo);
+$organizationName = trim((string) ($settings['nama_organisasi'] ?? APP_NAME));
 $logoPath = $settings['logo'] ?? null;
 $logoSrc = $logoPath ? base_url($logoPath) : base_url('assets/img/karang-taruna-logo.png');
 ?>
@@ -101,17 +102,22 @@ $logoSrc = $logoPath ? base_url($logoPath) : base_url('assets/img/karang-taruna-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Verifikasi OTP - <?php echo htmlspecialchars(APP_NAME, ENT_QUOTES, 'UTF-8'); ?></title>
+    <title>Verifikasi OTP - <?php echo htmlspecialchars($organizationName, ENT_QUOTES, 'UTF-8'); ?></title>
     <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css'); ?>">
 </head>
-<body class="auth-page">
-<div class="auth-card">
+<body class="auth-page auth-page--otp">
+<div class="auth-card auth-card--otp">
     <div class="auth-header">
         <div class="auth-logo">
             <img src="<?php echo htmlspecialchars($logoSrc, ENT_QUOTES, 'UTF-8'); ?>" alt="Logo Karang Taruna">
         </div>
         <h1 class="auth-title">Verifikasi Keamanan</h1>
         <p class="auth-subtitle">Kode OTP sudah dikirim ke Telegram Anda. Masukkan 6 digit kode di bawah ini.</p>
+    </div>
+
+    <div class="otp-hint">
+        <span class="otp-hint__dot"></span>
+        <span class="otp-hint__text">OTP aktif selama 5 menit dan hanya bisa dipakai sekali.</span>
     </div>
 
     <?php if ($success) : ?>
@@ -123,14 +129,14 @@ $logoSrc = $logoPath ? base_url($logoPath) : base_url('assets/img/karang-taruna-
 
     <form method="post" class="auth-form">
         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8'); ?>">
-        <label>
+        <label class="otp-field">
             Kode OTP
-            <input type="text" name="otp_code" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code" required>
+            <input type="text" name="otp_code" class="otp-input" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code" required>
         </label>
-        <button type="submit" class="btn btn-primary">Verifikasi & Login</button>
+        <button type="submit" class="btn btn-primary otp-submit">Verifikasi & Login</button>
     </form>
 
-    <div class="actions" style="margin-top: 14px;">
+    <div class="actions otp-actions" style="margin-top: 14px;">
         <?php if ($canResend && !empty($user['telegram_chat_id'])) : ?>
             <a href="<?php echo base_url('auth/verifikasi-otp.php?resend=1'); ?>" class="btn">Kirim Ulang OTP</a>
         <?php endif; ?>
